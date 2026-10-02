@@ -67,42 +67,43 @@ export const WorkflowVisualizer: React.FC<WorkflowVisualizerProps> = ({
   const progressPercent = Math.min(100, Math.round((completedStepsCount / steps.length) * 100));
 
   return (
-    <div className="rounded-xl bg-[#FFFFFF] border border-[#D9E2E8] p-4 shadow-sm text-[#18303F] transition-all">
+    <div className="rounded-xl bg-[#FFFFFF] border border-[#D9E2E8] p-4 shadow-sm text-[#18303F] transition-all min-w-0 overflow-hidden">
       {/* Header with expand toggle */}
-      <div className="flex items-center justify-between pb-3 border-b border-[#D9E2E8]">
-        <div className="flex items-center gap-2.5">
-          <div className="p-1.5 rounded-md bg-[#EBF3F7] text-[#21618C] border border-[#DCEAF2]">
+      <div className="flex flex-wrap items-center justify-between pb-3 border-b border-[#D9E2E8] gap-2 min-w-0">
+        <div className="flex items-center gap-2.5 min-w-0 flex-1">
+          <div className="p-1.5 rounded-md bg-[#EBF3F7] text-[#21618C] border border-[#DCEAF2] shrink-0">
             <Activity className="w-4 h-4" />
           </div>
-          <div>
+          <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2">
-              <h3 className="text-xs font-bold text-[#12304A] tracking-wide">
+              <h3 className="text-xs font-bold text-[#12304A] tracking-wide truncate">
                 Agentic Orchestration Pipeline
               </h3>
-              <span className="text-[10px] px-2 py-0.5 rounded font-semibold bg-[#EBF3F7] text-[#21618C] border border-[#DCEAF2]">
+              <span className="text-[10px] px-2 py-0.5 rounded font-semibold bg-[#EBF3F7] text-[#21618C] border border-[#DCEAF2] shrink-0 whitespace-nowrap">
                 Execution Flow
               </span>
             </div>
-            <p className="text-[11px] text-[#61717D]">
+            <p className="text-[11px] text-[#61717D] truncate">
               Autonomous task decomposition, specialist agent telemetry retrieval & deterministic synthesis
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 shrink-0">
           <div className="text-right hidden sm:block">
-            <div className="text-xs font-bold text-[#21618C]">
+            <div className="text-xs font-bold text-[#21618C] whitespace-nowrap">
               {progressPercent}% Fused
             </div>
-            <div className="text-[10px] text-[#61717D]">
+            <div className="text-[10px] text-[#61717D] whitespace-nowrap">
               {completedStepsCount} of {steps.length} Steps
             </div>
           </div>
 
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="p-1.5 rounded-md bg-[#F0F4F7] hover:bg-[#E5EDF2] text-[#61717D] hover:text-[#18303F] transition-colors cursor-pointer"
+            className="p-1.5 rounded-md bg-[#F0F4F7] hover:bg-[#E5EDF2] text-[#61717D] hover:text-[#18303F] transition-colors cursor-pointer shrink-0"
             title={isExpanded ? 'Collapse Trace' : 'Expand Trace'}
+            aria-label={isExpanded ? 'Collapse Trace' : 'Expand Trace'}
           >
             {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </button>
@@ -110,7 +111,7 @@ export const WorkflowVisualizer: React.FC<WorkflowVisualizerProps> = ({
       </div>
 
       {/* Clean Visual Pipeline Representation */}
-      <div className="py-3 px-1 overflow-x-auto">
+      <div className="py-3 px-1 overflow-x-auto max-w-full min-w-0">
         <div className="min-w-[620px] flex items-center justify-between gap-1 text-[11px]">
           {/* Query Node */}
           <div className="flex flex-col items-center">
@@ -188,8 +189,8 @@ export const WorkflowVisualizer: React.FC<WorkflowVisualizerProps> = ({
 
       {/* Step by step log trace */}
       {isExpanded && (
-        <div className="mt-1 space-y-2 pt-3 border-t border-[#D9E2E8]">
-          <div className="space-y-1.5 max-h-56 overflow-y-auto pr-1">
+        <div className="mt-1 space-y-2 pt-3 border-t border-[#D9E2E8] min-w-0">
+          <div className="space-y-1.5 max-h-56 overflow-y-auto pr-1 min-w-0">
             {steps.map((step, idx) => {
               const isCurrent = isProcessing && activeStepIndex === idx;
               const isDone = step.status === 'completed';
@@ -197,7 +198,7 @@ export const WorkflowVisualizer: React.FC<WorkflowVisualizerProps> = ({
               return (
                 <div
                   key={step.id}
-                  className={`p-2.5 rounded-lg border text-xs transition-colors flex items-start gap-2.5 ${
+                  className={`p-2.5 rounded-lg border text-xs transition-colors flex items-start gap-2.5 min-w-0 ${
                     isCurrent
                       ? 'bg-[#EBF3F7] border-[#21618C] shadow-xs'
                       : isDone
@@ -220,13 +221,13 @@ export const WorkflowVisualizer: React.FC<WorkflowVisualizerProps> = ({
 
                   {/* Step Body */}
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-2">
-                        <span className="font-semibold text-[#18303F]">
+                    <div className="flex flex-wrap items-center justify-between gap-1.5 min-w-0">
+                      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 min-w-0 flex-1">
+                        <span className="font-semibold text-[#18303F] break-words">
                           {step.name}
                         </span>
                         <span
-                          className={`text-[10px] px-1.5 py-0.5 rounded border font-medium flex items-center gap-1 ${getAgentBadgeColor(
+                          className={`text-[10px] px-1.5 py-0.5 rounded border font-medium flex items-center gap-1 shrink-0 whitespace-nowrap ${getAgentBadgeColor(
                             step.agentRole
                           )}`}
                         >
@@ -235,12 +236,12 @@ export const WorkflowVisualizer: React.FC<WorkflowVisualizerProps> = ({
                         </span>
                       </div>
                       {step.timestamp && (
-                        <span className="text-[10px] text-[#7A93A6] font-mono">
+                        <span className="text-[10px] text-[#7A93A6] font-mono shrink-0 whitespace-nowrap">
                           +{step.timestamp}
                         </span>
                       )}
                     </div>
-                    <p className="text-[11px] text-[#61717D] mt-0.5 leading-relaxed">
+                    <p className="text-[11px] text-[#61717D] mt-0.5 leading-relaxed break-words">
                       {step.detail}
                     </p>
                   </div>

@@ -116,3 +116,25 @@ export interface DemoScenario {
   mapZoom: number;
 }
 
+export type Language = 'en' | 'hi';
+
+export interface ChatMessageItem {
+  id: string;
+  sender: 'user' | 'assistant';
+  text: string;
+  timestamp: string;
+  isUnknownQuery?: boolean;
+  scenarioId?: string;
+}
+
+export interface SessionConversation {
+  id: string;
+  title: string;
+  titleHi: string;
+  query: string;
+  scenarioId?: string;
+  scenario?: DemoScenario | null;
+  messages: ChatMessageItem[];
+  createdAt: number;
+}
+
